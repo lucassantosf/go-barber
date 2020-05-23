@@ -1,4 +1,4 @@
-import User from '../models/User';
+const User = require('../models/User');
 
 class UserController {
   async store(req, res) {
@@ -7,12 +7,11 @@ class UserController {
       return res.status(400).json({ error: 'User already exists.' });
     }
     const { id, name, email, provider } = await User.create(req.body);
-    return res.json({ id, name, email, provider });
+    return res.json({ id, name, email, provider, msg });
   }
 
   async update(req, res) {
     res.json({ ok: true });
   }
 }
-
-export default new UserController();
+module.exports = new UserController();
