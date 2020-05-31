@@ -2,7 +2,15 @@ const Appointment = require('../models/Appointment');
 const User = require('../models/User');
 const File = require('../models/File');
 const Yup = require('yup');
-const { startOfHour, parseISO, isBefore } = require('date-fns');
+const {
+  startOfHour,
+  parseISO,
+  isBefore,
+  format,
+  subHours,
+} = require('date-fns');
+const pt = require('date-fns/locale/pt');
+const Notification = require('../schemas/Notification');
 
 class AppointmentController {
   async index(req, res) {
@@ -80,6 +88,44 @@ class AppointmentController {
       provider_id,
       date,
     });
+
+    /* Notify appointment provider */
+    const user = await User.findByPk(req.userId);
+    const formattedDate = format(
+      hourStart,
+      "'dia' dd 'de' MMMM, 'às' H:mm'h'",
+      { locale: pt }
+    );
+
+    await Notification.create({
+      content: `Novo agendamento de ${user.name} para dia ${user.formattedDate} `,
+      user: provider_id,
+    });
+
+    return res.json(appointment);
+  }
+  async delete(req, res) {
+    const appointment = await Appointment.findByPk(req.params.id);
+    if (appointment.user_id !== req.userId) {
+      return res.status(401).json({
+        error: "You don't have permission to cancel this appointment",
+      });
+    }
+
+    const dateWithSub = subHours(appointment.date, 2);
+
+    if (isBefore(dateWithSub, new Date())) {
+      return res
+        .status(401)
+        .json({ error: 'You can only cancel appointments 2 hours in advance' });
+    }
+
+    appointment.canceled_at = new Date()
+      .toJSON()
+      .slice(0, 19)
+      .replace('T', ' ');
+
+    await appointment.save();
 
     return res.json(appointment);
   }

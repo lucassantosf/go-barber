@@ -7,6 +7,7 @@ const Appointment = require('../app/models/Appointment');
 const databaseConfig = require('../config/database');
 
 const models = [User, File, Appointment];
+const uriMongoAtlas = '';
 
 class Database {
   constructor() {
@@ -23,12 +24,11 @@ class Database {
       );
   }
   mongo() {
-    this.mongoConnection = mongoose.connect(
-      'mongodb+srv://gobarber:yf1XNfLRDDCZ8Sv@cluster0-cz7qq.mongodb.net/test?retryWrites=true&w=majority',
-      {
-        useNewUrlParser: true,
-      }
-    );
+    this.mongoConnection = mongoose.connect(uriMongoAtlas, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+    });
   }
 }
 module.exports = new Database();
