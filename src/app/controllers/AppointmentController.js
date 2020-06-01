@@ -11,6 +11,8 @@ const {
 } = require('date-fns');
 const pt = require('date-fns/locale/pt');
 const Notification = require('../schemas/Notification');
+const CancellationMail = require('../jobs/CancellationMail');
+const Queue = require('../../lib/Queue');
 
 class AppointmentController {
   async index(req, res) {
@@ -105,7 +107,12 @@ class AppointmentController {
     return res.json(appointment);
   }
   async delete(req, res) {
-    const appointment = await Appointment.findByPk(req.params.id);
+    const appointment = await Appointment.findByPk(req.params.id, {
+      include: [
+        { model: User, as: 'provider', attributes: ['name', 'email'] },
+        { model: User, as: 'user', attributes: ['name', 'email'] },
+      ],
+    });
     if (appointment.user_id !== req.userId) {
       return res.status(401).json({
         error: "You don't have permission to cancel this appointment",
@@ -126,6 +133,10 @@ class AppointmentController {
       .replace('T', ' ');
 
     await appointment.save();
+
+    await Queue.add(CancellationMail.key, {
+      appointment,
+    });
 
     return res.json(appointment);
   }
