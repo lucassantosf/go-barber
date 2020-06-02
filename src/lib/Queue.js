@@ -1,4 +1,4 @@
-const Bee = require('bee-queue');
+/*const Bee = require('bee-queue');
 const CancellationMail = require('../app/jobs/CancellationMail');
 const redisConfig = require('../config/redis');
 
@@ -38,4 +38,4 @@ class Queue {
   }
 }
 
-module.exports = new Bee();
+module.exports = new Bee();*/

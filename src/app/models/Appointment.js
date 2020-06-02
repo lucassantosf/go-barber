@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const { Model } = Sequelize;
+const { isBefore, subHours } = require('date-fns');
 
 class Appointment extends Model {
   static init(sequelize) {
@@ -7,6 +8,18 @@ class Appointment extends Model {
       {
         date: Sequelize.STRING,
         canceled_at: Sequelize.STRING,
+        past: {
+          type: Sequelize.VIRTUAL,
+          get() {
+            return isBefore(this.date, new Date());
+          },
+        },
+        cancelable: {
+          type: Sequelize.VIRTUAL,
+          get() {
+            return isBefore(new Date(), subHours(this.date, 2));
+          },
+        },
       },
       {
         sequelize,
