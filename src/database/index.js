@@ -7,8 +7,7 @@ const Appointment = require('../app/models/Appointment');
 const databaseConfig = require('../config/database');
 
 const models = [User, File, Appointment];
-const uriMongoAtlas =
-  'mongodb+srv://user_31:NxsOJzm2sXKQwrtS@gobarberapi-cz7qq.mongodb.net/test?retryWrites=true&w=majority';
+
 class Database {
   constructor() {
     this.init();
@@ -24,7 +23,7 @@ class Database {
       );
   }
   mongo() {
-    this.mongoConnection = mongoose.connect(uriMongoAtlas, {
+    this.mongoConnection = mongoose.connect(process.env.MONGO_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
