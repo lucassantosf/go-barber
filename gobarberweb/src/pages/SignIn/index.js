@@ -1,5 +1,19 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import logo from "~/assets/logo.png";
 
 export default function SignIn() {
-  return <h1>Sign In</h1>;
+  return (
+    <>
+      <img src={logo} alt="Gobarber" />
+
+      <form>
+        <input type="email" placeholder="Seu email" />
+        <input type="password" placeholder="Sua senha secreta" />
+
+        <button type="submit">Acessar</button>
+        <Link to="/register">Criar conta gratuita</Link>
+      </form>
+    </>
+  );
 }
