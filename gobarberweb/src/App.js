@@ -1,6 +1,6 @@
 import React from "react";
 import { Provider } from "react-redux";
-import { Router } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
 import "./config/ReactotronConfig";
 
@@ -14,10 +14,10 @@ import GlobalStyled from "./styles/global";
 function App() {
   return (
     <Provider store={store}>
-      <Router history={history}>
+      <BrowserRouter history={history}>
         <Routes />
         <GlobalStyled />
-      </Router>
+      </BrowserRouter>
     </Provider>
   );
 }
