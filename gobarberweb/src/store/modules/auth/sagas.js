@@ -10,8 +10,6 @@ export function* signIn({ payload }) {
   try {
     const { email, password } = payload;
 
-    toast.error("1");
-
     const response = yield call(api.post, "sessions", {
       email,
       password,
@@ -29,6 +27,8 @@ export function* signIn({ payload }) {
     yield put(signInSuccess(token, user));
 
     history.push("/dashboard");
+
+    window.location.reload();
   } catch (err) {
     toast.error("Falha na autenticação");
     yield put(signFailure());
@@ -64,6 +64,7 @@ export function setToken({ payload }) {
 
 export function signOut() {
   history.push("/");
+  window.location.reload();
 }
 
 export default all([
