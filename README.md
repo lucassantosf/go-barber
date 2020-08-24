@@ -21,7 +21,7 @@ The project is available in 3 folders. Respectively :
 <ul>
   <li>/gobarberapi - Node.js</li>
   <li>/gobarberweb - React.js</li>
-  <li>/gobarbermobile - React Native</li>
+  <li>/gobarberapp - React Native</li>
 </ul>
 
 After cloning the repository, simply browse to any of these folders, and run the following commands:
@@ -32,6 +32,6 @@ After cloning the repository, simply browse to any of these folders, and run the
 
 ### Details
 
-To execute the project of the folder gobarberweb[react] or gobarbermobile[react native], it is necessary to execute the project of the folder 'gobarberapi', due to the consumption of the api available in this application.
+To execute the project of the folder gobarberweb[react] or gobarberapp[react native], it is necessary to execute the project of the folder 'gobarberapi', due to the consumption of the api available in this application.
 
 I recommend you install /gobarberapi first and view the other projects.
