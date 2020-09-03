@@ -2,14 +2,9 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const File = require('../models/File');
 const authConfig = require('../../config/auth');
-const Yup = require('yup');
 
 class SessionController {
   async store(req, res) {
-    const schema = Yup.object().shape({
-      email: Yup.string().required().email(),
-      password: Yup.string().required(),
-    });
     const { email, password } = req.body;
     const user = await User.findOne({
       where: { email },
