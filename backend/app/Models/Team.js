@@ -9,6 +9,10 @@ class Team extends Model {
       "App/Models/UserTeam"
     );
   }
+
+  projects() {
+    return this.hasMany("App/Models/Project");
+  }
 }
 
 module.exports = Team;
